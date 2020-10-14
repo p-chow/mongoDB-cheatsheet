@@ -6,13 +6,16 @@
 
 ##### structured: 'db.colName.find().pretty()` 
    `pretty()` : returns document name and value pair displayed
+   
    `limit()` : limit by given number from current position
+   
    `skip()` : skip the given number of documents
+   
    `sort({<key>:1})` : 1 for ascending, -1 for descending
    
 ##### projection: 
 `find({},{<key>:1, _id:0})`
-   1 to display field, _id field is always displayed
+   1 to display field, _id field is always displayed (0 to hide field)
 
 
 ## query operator `db.col.find()`
@@ -28,7 +31,16 @@ eg. db.inventory.find({ satus : {$in : ["A","D"]}})
 ##### less than equals, greater than, greater than equals, not equals
 replace `$lt` with `$lte` or `$gt` or `$gte` or `$ne`
 
+##### other operators
+`$in` :
+
+`$and` : .find( {$and: [{"key1":"value1"}, {"key1":"value1"}] }]
+=> .find( {"key1":"value1", "key2":"value2"} )
+> similar to: "WHERE key1 = value1 AND key2 = value2"
+
 ## aggregate functions `db.col.aggregate()` WHERE 
+aggregation operations group values from multiple documents together, and performa variety of operations on grouped data to return a single result
+`db.colName.aggregate(<aggregate operation>)`
 
 `$sum()` : 
 ```
@@ -36,8 +48,11 @@ replace `$lt` with `$lte` or `$gt` or `$gte` or `$ne`
              [{$group: 
                 {_id:"$by_user", num_book:{$sum : "$likes"}
                    }}])
-```                   
-`$or` : 
+```      
+> similar to recursive, group documents by the field "by_user", then for every row where id = "by_user", add number of likes of the row to the corresponding value num_book
+used similarly: `$avg`, `$min`, `$max`
+
+`$or` + `$match`: 
 ```
       aggregate(
              [ {$match :
