@@ -3,15 +3,16 @@
 ## query document
 ##### non-structured: 
 `db.colName.find(query, projection)`
+> SQL: SELECT * FROM colName
 
-##### structured: 'db.colName.find().pretty()` 
-   `pretty()` : returns document name and value pair displayed
+##### structured: 'db.colName.find().---` 
+   `.pretty()` : returns document name and value pair displayed
    
-   `limit()` : limit by given number from current position
+   `.limit()` : limit by given number from current position
    
-   `skip()` : skip the given number of documents
+   `.skip()` : skip the given number of documents
    
-   `sort({<key>:1})` : 1 for ascending, -1 for descending
+   `.sort({<key>:1})` : 1 for ascending, -1 for descending
    
 ##### projection: 
 `find({},{<key>:1, _id:0})`
@@ -32,7 +33,10 @@ eg. db.inventory.find({ satus : {$in : ["A","D"]}})
 replace `$lt` with `$lte` or `$gt` or `$gte` or `$ne`
 
 ##### other operators
-`$in` :
+`$in`, `$not`, `$nor`, `$or`: `{ <field> : {<operator1> : <value 1> },...}`
+
+`$in` : `db.colName.find( {<field> : {$in: ["<value>", "<value>"]}})`
+> SELECT * FROM colName WHERE <field> in ("<value>", "<value>")
 
 `$and` : .find( {$and: [{"key1":"value1"}, {"key1":"value1"}] }]
 => .find( {"key1":"value1", "key2":"value2"} )
@@ -87,5 +91,23 @@ to match both criteria, if not
       find( 
         {<field.key> : {<expression>,...}});
 ```
+`$count`: 
+```
+      aggregate(
+             [ {$count : <string> } ])
+```
+<string> is the name of output field which has the count as its value
  
  db.students.aggregate([{ $match: { "scores.0.score": {$gt:80}}},{ $count: "Passed exam with greater than 80 marks"}]);
+ 
+ 
+ ## useful queries
+ `show dbs` : show all databases
+ 
+ `db.getCollectionNames()` : shows all collections in database
+ 
+ `db.dropDataBase()` : drop db
+ 
+ `use <db>` : switch to database/ creates one if does not exist
+ 
+ `db` : show current db
