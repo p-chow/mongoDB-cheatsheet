@@ -96,7 +96,7 @@ to match both criteria, if not
       aggregate(
              [ {$count : <string> } ])
 ```
-<string> is the name of output field which has the count as its value
+string: is the name of output field which has the count as its value
  
  db.students.aggregate([{ $match: { "scores.0.score": {$gt:80}}},{ $count: "Passed exam with greater than 80 marks"}]);
  
